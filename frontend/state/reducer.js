@@ -11,10 +11,19 @@ import {
 } from './action-types'
 
 const initialWheelState = {
-  wheel: 0
+  wheel: [1,0,0,0,0,0], 
+  active: 0
 }
 function wheel(state = initialWheelState, action) {
   switch (action.type) {
+    case MOVE_CLOCKWISE:
+    case MOVE_COUNTERCLOCKWISE:
+      
+      return {
+        ...state,
+        wheel: action.payload.newWheel,
+        active: action.payload.newActive
+      }
     default:
       return state
   }
@@ -41,7 +50,7 @@ function selectedAnswer(state = initialSelectedAnswerState, action) {
 }
 
 const initialMessageState = {
-  message: 'Begin!'
+  message: ''
 }
 function infoMessage(state = initialMessageState, action) {
   switch (action.type) {

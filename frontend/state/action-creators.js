@@ -1,7 +1,27 @@
 // ❗ You don't need to add extra action creators to achieve MVP
-export function moveClockwise() { }
+import { 
+  SET_INFO_MESSAGE,
+  MOVE_CLOCKWISE,
+  MOVE_COUNTERCLOCKWISE,
+  SET_QUIZ_INTO_STATE,
+  SET_SELECTED_ANSWER,
+  INPUT_CHANGE,
+  RESET_FORM
+} from './action-types'
 
-export function moveCounterClockwise() { }
+const newWheel = (wheel, newActive) => {
+  return wheel.map((_, idx) => {
+  return idx !== newActive ? 0 : 1;
+})}
+export function moveClockwise(active, wheel) {
+  const newActive = active < 5 ? active + 1 : 0;
+  return({type: MOVE_CLOCKWISE, payload: {newActive: newActive, newWheel: newWheel(wheel, newActive)}})
+ }
+
+export function moveCounterClockwise(active, wheel) { 
+  const newActive = active > 0 ? active - 1 : 5 ;
+  return({type: MOVE_COUNTERCLOCKWISE, payload: {newActive: newActive, newWheel: newWheel(wheel, newActive)}})
+}
 
 export function selectAnswer() { }
 
