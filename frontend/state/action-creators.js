@@ -1,4 +1,5 @@
 // ❗ You don't need to add extra action creators to achieve MVP
+import axios from 'axios'
 import { 
   SET_INFO_MESSAGE,
   MOVE_CLOCKWISE,
@@ -27,7 +28,9 @@ export function selectAnswer(index) {
   return({type: SET_SELECTED_ANSWER, payload: index})
  }
 
-export function setMessage() { }
+export function setMessage(msg) {
+  return({type: SET_INFO_MESSAGE, payload: msg})
+ }
 
 export function setQuiz(quiz) {
   return({type: SET_QUIZ_INTO_STATE, payload: quiz}) }
@@ -35,16 +38,24 @@ export function setQuiz(quiz) {
 export function inputChange() { 
 }
 
-export function resetForm() { }
+export function resetForm() { 
+  return({type:RESET_FORM})
+}
 
 // ❗ Async action creators
-export function fetchQuiz() {
+export function fetchQuiz(url) {
   return function (dispatch) {
     // First, dispatch an action to reset the quiz state (so the "Loading next quiz..." message can display)
+    dispatch({type:SET_QUIZ_INTO_STATE, payload:{quiz: {}, isLoading: true}})
     // On successful GET:
     // - Dispatch an action to send the obtained quiz to its state
+    axios.get(url)
+      .then(res => dispatch({type:SET_QUIZ_INTO_STATE, payload:{quiz: res.data, isLoading: false}}))
+      .catch(err => dispatch({type:SET_INFO_MESSAGE, payload: err.error}))
   }
 }
+
+
 export function postAnswer() {
   return function (dispatch) {
     // On successful POST:

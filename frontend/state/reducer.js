@@ -30,14 +30,18 @@ function wheel(state = initialWheelState, action) {
 }
 
 const initialQuizState = {
-  quiz: {question: "", answers: [{text: ""},{text: ""}]}
+  quiz: {question: "", 
+  answers: [{text: "", answer_id: "1"},
+  {text: "", answer_id: "2"}]},
+  isLoading: true
 }
 function quiz(state = initialQuizState, action) {
   switch (action.type) {
     case SET_QUIZ_INTO_STATE: {
       return {
         ...state,
-        quiz: action.payload
+        quiz: action.payload.quiz,
+        isLoading: action.payload.isLoading
       }
     }
     default:
@@ -65,6 +69,11 @@ const initialMessageState = {
 }
 function infoMessage(state = initialMessageState, action) {
   switch (action.type) {
+    case SET_INFO_MESSAGE: {
+      return {...state,
+        message: action.payload
+      }
+    }
     default:
       return state
   }
@@ -78,6 +87,10 @@ const initialFormState = {
 function form(state = initialFormState, action) {
   switch (action.type) {
     default:
+      case RESET_FORM: {
+        return {initialFormState
+        }
+      }
       return state
     }
 }

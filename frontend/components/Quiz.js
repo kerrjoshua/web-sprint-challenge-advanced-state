@@ -1,34 +1,39 @@
-import React from 'react'
-import axios from 'axios'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { data } from '../data'
-import { setQuiz, selectAnswer } from '../state/action-creators'
+import { setQuiz, selectAnswer, fetchQuiz } from '../state/action-creators'
 
 
 function Quiz(props) {
 
-  props.setQuiz(data)
-  const { question, answers } = props.quiz;
+  useEffect(() => {
+    props.setQuiz({quiz: data, isLoading:false})},[])
+  console.log(props)
   const { selected } = props;
   const disabled = selected === null;
-  const handleClick = index => props.selectAnswer(index);
+  const handleClick = id => props.selectAnswer(id);
+  const handleSubmit = e => {
+    e.preventDefault();
+    props.fetchQuiz('http://localhost:9000/api/quiz/next')
+  }
   return (
     <div id="wrapper">
       {
-        props.quiz ? (
+        !props.isLoading ? (
           <>
-            <h2>{question}</h2>
+            <h2>{props.quiz.question}</h2>
 
 
 
             <div id="quizAnswers">
 
-              {answers.map((answer, i) => {
-                const isSelected = selected === i;
+              {props.quiz.answers.map((answer, i) => {
+                console.log(answer.answer_id)
+                const isSelected = selected === answer.answer_id;
                 return (
-                  <div className={`answer ${isSelected ? "selected" : ""}`} key={i}>
-                    {answers[i].text}
-                    <button onClick ={() => handleClick(i)}>
+                  <div className={`answer ${isSelected ? "selected" : ""}`} key={answer.answer_id}>
+                    {answer.text}
+                    <button onClick ={() => handleClick(answer.answer_id)}>
                       {`${isSelected ? "SELECTED" : "Select"}`}
                     </button>
                   </div>
@@ -37,7 +42,7 @@ function Quiz(props) {
 
             </div>
 
-            <button id="submitAnswerBtn" disabled={disabled}>Submit answer</button>
+            <button id="submitAnswerBtn" onClick={handleSubmit} disabled={disabled}>Submit answer</button>
           </>
         ) : 'Loading next quiz...'
       }
@@ -48,8 +53,9 @@ function Quiz(props) {
 const mapStateToProps = state => {
   return {
     quiz: state.quiz.quiz,
-    selected: state.selectedAnswer.selectedAnswer
+    selected: state.selectedAnswer.selectedAnswer,
+    isLoading: state.quiz.isLoading
   }
 }
 
-export default connect(mapStateToProps, { setQuiz, selectAnswer })(Quiz)
+export default connect(mapStateToProps, { setQuiz, selectAnswer, fetchQuiz })(Quiz)
