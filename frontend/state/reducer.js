@@ -30,10 +30,16 @@ function wheel(state = initialWheelState, action) {
 }
 
 const initialQuizState = {
-  quiz: null
+  quiz: {question: "", answers: [{text: ""},{text: ""}]}
 }
 function quiz(state = initialQuizState, action) {
   switch (action.type) {
+    case SET_QUIZ_INTO_STATE: {
+      return {
+        ...state,
+        quiz: action.payload
+      }
+    }
     default:
       return state
   }

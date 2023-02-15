@@ -84,3 +84,12 @@ In order to complete this project, you must fix the following modules:
 ## Stretch Goals
 
 - Without breaking any tests, see to randomizing the order in which answers appear.
+
+data: 
+  answers: Array(2)
+    0: {answer_id: 'prcar', text: 'A function plus its bindings'}
+    1: {answer_id: 'yefxu', text: 'Clearly some kind of elephant'}
+    length: 2
+    [[Prototype]]: Array(0)
+  question: "What is a closure?"
+  quiz_id: "uvvod"

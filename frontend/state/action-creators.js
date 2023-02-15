@@ -27,9 +27,11 @@ export function selectAnswer() { }
 
 export function setMessage() { }
 
-export function setQuiz() { }
+export function setQuiz(quiz) {
+  return({type: SET_QUIZ_INTO_STATE, payload: quiz}) }
 
-export function inputChange() { }
+export function inputChange() { 
+}
 
 export function resetForm() { }
 
