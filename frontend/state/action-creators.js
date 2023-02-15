@@ -47,6 +47,7 @@ export function fetchQuiz(url) {
   return function (dispatch) {
     // First, dispatch an action to reset the quiz state (so the "Loading next quiz..." message can display)
     dispatch({type:SET_QUIZ_INTO_STATE, payload:{quiz: {}, isLoading: true}})
+    dispatch({type:SET_SELECTED_ANSWER, payload: null})
     // On successful GET:
     // - Dispatch an action to send the obtained quiz to its state
     axios.get(url)
