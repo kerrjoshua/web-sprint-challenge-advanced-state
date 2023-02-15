@@ -23,7 +23,9 @@ export function moveCounterClockwise(active, wheel) {
   return({type: MOVE_COUNTERCLOCKWISE, payload: {newActive: newActive, newWheel: newWheel(wheel, newActive)}})
 }
 
-export function selectAnswer() { }
+export function selectAnswer(index) {
+  return({type: SET_SELECTED_ANSWER, payload: index})
+ }
 
 export function setMessage() { }
 

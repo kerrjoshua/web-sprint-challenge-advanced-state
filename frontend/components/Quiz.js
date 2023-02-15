@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { data } from '../data'
-import { setQuiz } from '../state/action-creators'
+import { setQuiz, selectAnswer } from '../state/action-creators'
 
 
 function Quiz(props) {
@@ -11,6 +11,7 @@ function Quiz(props) {
   const { question, answers } = props.quiz;
   const { selected } = props;
   const disabled = selected === null;
+  const handleClick = index => props.selectAnswer(index);
   return (
     <div id="wrapper">
       {
@@ -27,7 +28,7 @@ function Quiz(props) {
                 return (
                   <div className={`answer ${isSelected ? "selected" : ""}`} key={i}>
                     {answers[i].text}
-                    <button >
+                    <button onClick ={() => handleClick(i)}>
                       {`${isSelected ? "SELECTED" : "Select"}`}
                     </button>
                   </div>
@@ -51,4 +52,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { setQuiz })(Quiz)
+export default connect(mapStateToProps, { setQuiz, selectAnswer })(Quiz)
