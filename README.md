@@ -44,7 +44,7 @@ Open the live prototype linked above and study its functionality using the follo
 
 The endpoints needed for this project are the following:
 
-- `[GET] http://localhost:9000/api/quiz/next`
+- `[GET] `
   - The response to a proper request includes `200 OK` and the next quiz object
 - `[POST] http://localhost:9000/api/quiz/new`
   - Expects a payload with the following properties: `question_text`, `true_answer_text`, `false_answer_text`

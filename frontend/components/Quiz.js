@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { data } from '../data'
-import { setQuiz, selectAnswer, fetchQuiz } from '../state/action-creators'
+import { setQuiz, selectAnswer, fetchQuiz, postAnswer } from '../state/action-creators'
 
 
 function Quiz(props) {
 
   useEffect(() => {
-    props.setQuiz({quiz: data, isLoading:false})},[])
+    props.fetchQuiz()},[])
   console.log(props)
   const { selected } = props;
   const disabled = selected === null;
   const handleClick = id => props.selectAnswer(id);
   const handleSubmit = e => {
     e.preventDefault();
-    props.fetchQuiz('http://localhost:9000/api/quiz/next')
+    props.postAnswer(props.selected, props.quiz.quiz_id)
   }
   return (
     <div id="wrapper">
@@ -58,4 +58,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, { setQuiz, selectAnswer, fetchQuiz })(Quiz)
+export default connect(mapStateToProps, { setQuiz, selectAnswer, fetchQuiz, postAnswer })(Quiz)

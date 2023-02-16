@@ -9,6 +9,7 @@ import {
   INPUT_CHANGE,
   RESET_FORM
 } from './action-types'
+import { newQuizURL, checkQuizURL, addQuizURL } from '../resources/apiURLs'
 
 const newWheel = (wheel, newActive) => {
   return wheel.map((_, idx) => {
@@ -43,26 +44,32 @@ export function resetForm() {
 }
 
 // ❗ Async action creators
-export function fetchQuiz(url) {
+export function fetchQuiz() {
   return function (dispatch) {
     // First, dispatch an action to reset the quiz state (so the "Loading next quiz..." message can display)
     dispatch({type:SET_QUIZ_INTO_STATE, payload:{quiz: {}, isLoading: true}})
     dispatch({type:SET_SELECTED_ANSWER, payload: null})
     // On successful GET:
     // - Dispatch an action to send the obtained quiz to its state
-    axios.get(url)
+    axios.get(newQuizURL)
       .then(res => dispatch({type:SET_QUIZ_INTO_STATE, payload:{quiz: res.data, isLoading: false}}))
       .catch(err => dispatch({type:SET_INFO_MESSAGE, payload: err.error}))
   }
 }
 
 
-export function postAnswer() {
+export function postAnswer(answerID, quizID) {
   return function (dispatch) {
     // On successful POST:
     // - Dispatch an action to reset the selected answer state
     // - Dispatch an action to set the server message to state
+    
+    
+    axios.post(checkQuizURL, { "quiz_id": quizID, "answer_id": answerID })
+      .then(res => dispatch({type:SET_INFO_MESSAGE, payload: res.data.message}))
+      .catch(err => dispatch({type:SET_INFO_MESSAGE, payload:err.message}))
     // - Dispatch the fetching of the next quiz
+    dispatch(fetchQuiz())
   }
 }
 export function postQuiz() {
