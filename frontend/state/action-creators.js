@@ -73,10 +73,10 @@ export function postAnswer(answerID, quizID) {
     
     axios.post(checkQuizURL, { "quiz_id": quizID, "answer_id": answerID })
       .then(res => dispatch({type:SET_INFO_MESSAGE, payload: res.data.message}))
+      .then(() => dispatch(fetchQuiz()))
       .catch(err => dispatch({type:SET_INFO_MESSAGE, payload:err.message}))
-      .finally( dispatch(fetchQuiz()))
     // - Dispatch the fetching of the next quiz
-   
+    
   }
 }
 export function postQuiz(newQuiz) {

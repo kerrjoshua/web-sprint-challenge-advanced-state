@@ -28,11 +28,23 @@ function wheel(state = initialWheelState, action) {
       return state
   }
 }
+const initialSelectedAnswerState = {
+  selectedAnswer: null
+}
+function selectedAnswer(state = initialSelectedAnswerState, action) {
+  switch (action.type) {
+    case SET_SELECTED_ANSWER: {
+      return { ...state,
+        selectedAnswer: action.payload
+      }
+    }
+    default:
+      return state
+  }
+}
 
 const initialQuizState = {
-  quiz: {question: "", 
-  answers: [{text: "", answer_id: "1"},
-  {text: "", answer_id: "2"}]},
+  quiz: {},
   isLoading: true
 }
 function quiz(state = initialQuizState, action) {
@@ -49,20 +61,6 @@ function quiz(state = initialQuizState, action) {
   }
 }
 
-const initialSelectedAnswerState = {
-  selectedAnswer: null
-}
-function selectedAnswer(state = initialSelectedAnswerState, action) {
-  switch (action.type) {
-    case SET_SELECTED_ANSWER: {
-      return { ...state,
-        selectedAnswer: action.payload
-      }
-    }
-    default:
-      return state
-  }
-}
 
 const initialMessageState = {
   message: ''
