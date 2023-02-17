@@ -1,23 +1,23 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import * as actionCreators from '../state/action-creators'
-import { postQuiz } from '../state/action-creators'
+import { postQuiz, inputChange } from '../state/action-creators'
 
 export function Form(props) {
 
-  const [ newQuiz, setNewQuiz ] = useState({newQuestion: '', newTrueAnswer: '', newFalseAnswer: ''})
 
-  const { newQuestion, newTrueAnswer, newFalseAnswer } = newQuiz;
+  const { newQuestion, newTrueAnswer, newFalseAnswer } = props.newQuiz;
+
 
   const onChange = evt => {
-    setNewQuiz ({...newQuiz, [evt.target.id]: evt.target.value})
+    props.inputChange(evt, props.pstate)
   }
 
-  const disabled = !(newQuestion.trim.length > 0 || newTrueAnswer.trim.length > 0 || newFalseAnswer.trim.length > 0)
+  const disabled = (newQuestion.trim().length < 1|| newTrueAnswer.trim().length < 1 || newFalseAnswer.trim().length < 1)
 
   const onSubmit = evt => {
-    evt.preventDefault;
-    props.postQuiz(newQuiz)
+    evt.preventDefault();
+    props.postQuiz(props.newQuiz)
   }
 
   return (
@@ -31,6 +31,16 @@ export function Form(props) {
   )
 }
 
+const mapStateToProps = state => {
+  return {
+    newQuiz: {
+      newQuestion: state.form.newQuestion,
+      newTrueAnswer: state.form.newTrueAnswer,
+      newFalseAnswer: state.form.newFalseAnswer
+    }
+      
+    }
+  
+}
 
-
-export default connect(null, {postQuiz})(Form)
+export default connect(mapStateToProps, {postQuiz, inputChange})(Form)

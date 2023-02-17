@@ -7,8 +7,7 @@ import { setQuiz, selectAnswer, fetchQuiz, postAnswer } from '../state/action-cr
 function Quiz(props) {
 
   useEffect(() => {
-    props.fetchQuiz()},[])
-  console.log(props)
+    if (props.isLoading) props.fetchQuiz()},[])
   const { selected } = props;
   const disabled = selected === null;
   const handleClick = id => props.selectAnswer(id);
@@ -28,7 +27,6 @@ function Quiz(props) {
             <div id="quizAnswers">
 
               {props.quiz.answers.map((answer, i) => {
-                console.log(answer.answer_id)
                 const isSelected = selected === answer.answer_id;
                 return (
                   <div className={`answer ${isSelected ? "selected" : ""}`} key={answer.answer_id}>

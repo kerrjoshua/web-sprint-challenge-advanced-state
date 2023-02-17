@@ -86,11 +86,15 @@ const initialFormState = {
 }
 function form(state = initialFormState, action) {
   switch (action.type) {
-    default:
-      case RESET_FORM: {
-        return {initialFormState
-        }
+    case INPUT_CHANGE: {
+      return {...state,
+        [action.payload.id]: action.payload.value
       }
+    }
+    case RESET_FORM: {
+      return initialFormState;
+    }
+    default:
       return state
     }
 }
